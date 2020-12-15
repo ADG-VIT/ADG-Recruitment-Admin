@@ -6,6 +6,7 @@ import classes from "./Questions.module.css";
 let questionid;
 let index=0;
 let optionNo=0;
+let getQuestions=[];
 const TechQuestions = (props)=>{
     const [questionDescription, setQuestionDescription]=useState("");
     let inputValue = (event)=>{ setQuestionDescription(event.target.value) }
@@ -73,7 +74,7 @@ const TechQuestions = (props)=>{
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
-                    "auth-token": sessionStorage.getItem("admin"),
+                    "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmMyNmI1NTNiNzgwMTE4N2IyZWE4ZTgiLCJpYXQiOjE2MDY3NjAwMTl9.DB2DxgaWierOYKZ4EJX44R9NXrEE5JwT0c2PaHSJAk4",
                 },
                 body: JSON.stringify(questionObject)
             })
@@ -96,26 +97,30 @@ const TechQuestions = (props)=>{
             clearAll();
         }
 
-        const [getQuestions, setGetQuestions] = useState({});
 
         function getTechQuestions() {
             fetch("https://adgrecruitments.herokuapp.com/admin/technical/get-all-questions", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "auth-token": sessionStorage.getItem("admin"),
+                    "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmMyNmI1NTNiNzgwMTE4N2IyZWE4ZTgiLCJpYXQiOjE2MDY3NjAwMTl9.DB2DxgaWierOYKZ4EJX44R9NXrEE5JwT0c2PaHSJAk4",
                 },
             })
             .then((response) => {
                 return response.json();
             })
             .then((data) => {
-                setGetQuestions(data);
-                console.log(data);
-                console.log(getQuestions);
+                getQuestions=data.questions;
+                getQuestions.map(question=>{
+                    console.log("description",question['questionDescription']);
+                    console.log("options",question['options']);
+                    console.log("file",question['file']);
+                })
             })
             .catch(error => console.log(error));
         }
+
+        // window.addEventListener('onload',getTechQuestions);
 
         async function deleteTechQuestion(id){
             setTechQuestions((prevQ)=>{
@@ -128,7 +133,7 @@ const TechQuestions = (props)=>{
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
-                    "auth-token": sessionStorage.getItem("admin"),
+                    "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmMyNmI1NTNiNzgwMTE4N2IyZWE4ZTgiLCJpYXQiOjE2MDY3NjAwMTl9.DB2DxgaWierOYKZ4EJX44R9NXrEE5JwT0c2PaHSJAk4",
                 }
             })
             .then((response) => {
@@ -191,22 +196,22 @@ const TechQuestions = (props)=>{
                         <button onClick={()=>deleteTechQuestion(question.id)}>Delete</button>
                     </div>
                 ))} */}
-
-                {/* {getQuestions.map((question,index)=>(
+                {getQuestions.map((question,index)=>(
                     <div className={classes.questions} key={index}>
                         <div>
                             <div className={classes.options}>
                                 <div>{index+1}.</div>
-                                <div className={classes.questionDescrip}>{question.questionDescription}</div>
-                                <div className={question.file ? "display-image" :"display-none"}>
-                                <img src={question.file} alt="Q.img" className={classes.image}></img>
+                                <div className={classes.questionDescrip}>{question['questionDescription']}</div>
+                                <div className={question['file'] ? "display-image" :"display-none"}>
+                                <img src={question['file']} alt="Q.img" className={classes.image}></img>
                                 </div>
                             </div>
-                            <OptionsDisplay questions={question.options}/>
+                            <OptionsDisplay questions={question['options']}/>
                         </div>
-                        <button onClick={()=>deleteTechQuestion(question.id)}>Delete</button>
+                        {/* <button onClick={()=>deleteTechQuestion(question.id)}>Delete</button> */}
                     </div>
-                ))} */}
+                ))}
+
         </div>
     );
 }

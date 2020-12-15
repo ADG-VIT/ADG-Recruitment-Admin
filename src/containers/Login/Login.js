@@ -35,7 +35,7 @@ const Login = () => {
             .then(function(data) {
                 // console.log("Success: ", data);
                 // console.log(data.Token);
-                sessionStorage.setItem("admin", JSON.stringify(data.Token));
+                sessionStorage.setItem("admin", data.Token);
                 history.push("/");
             }).catch(error => {
                 // console.log("Invalid Login Credentials ", error);

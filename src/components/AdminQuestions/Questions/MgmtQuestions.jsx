@@ -77,7 +77,7 @@ const MgmtQuestions = (props)=>{
                     <div className={classes.questions} key={index}>
                         <div className={classes.descrip}>
                             <div>{index+1}.</div>
-                            <div className={classes.questionDescrip1}>{question.questionDescription}</div>
+                            <div className={classes.questionDescrip}>{question.questionDescription}</div>
                             {/* <div className={question.file ? "display-image" :"display-none"}><br />
                                 <img src={question.file} alt="Q.img" className={classes.image}></img>
                             </div> */}

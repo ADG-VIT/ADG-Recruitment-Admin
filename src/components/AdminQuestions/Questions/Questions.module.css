@@ -21,16 +21,12 @@
     justify-content: space-between;
     margin-bottom: 2%;
 }
-.questionDescrip,
-.questionDescrip1{
+.questionDescrip{
     text-align: justify;
     margin-left: 25px;
-    margin-top:-25px;
+    margin-top:-18px;
     font-size: 15px;
 } 
-.questionDescrip1{
-    margin-top:-18px;
-}
 .questions>button{
     width:10%;
     height:10%;
