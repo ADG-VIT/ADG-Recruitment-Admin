@@ -42,7 +42,7 @@ const TechQuestions = (props)=>{
     const[correctOption,setCorrectOption]=useState("")
     let getCorrectOption = (event)=>{ setCorrectOption(event.target.value) }
 
-    let generateId = ()=>{ questionid = uuid() }
+    let generateId = () => { questionid = uuid() }
 
         const [techQuestions,setTechQuestions]=useState([
         // {
@@ -59,18 +59,21 @@ const TechQuestions = (props)=>{
         //     file:{}
         //    }
         ]);
+
         async function addTechQuestion(){
             setTechQuestions((prevQ)=>{
                 return [...prevQ,{id:questionid,questionDescription:questionDescription,yearofstudy:yearofstudy,options:options,file:files.base64,correctOption:correctOption}]
             })
             // console.log(techQuestions);
             const questionObject = {questionDescription:questionDescription, options:options, correctOption:correctOption, yearofstudy:yearofstudy, questionImage:files.base64};
-            
+
+            console.log(sessionStorage.getItem("admin"));
+
             await fetch("https://adgrecruitments.herokuapp.com/admin/technical/add-question", {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
-                    "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmMyNmI1NTNiNzgwMTE4N2IyZWE4ZTgiLCJpYXQiOjE2MDY3NjAwMTl9.DB2DxgaWierOYKZ4EJX44R9NXrEE5JwT0c2PaHSJAk4",
+                    "auth-token": sessionStorage.getItem("admin"),
                 },
                 body: JSON.stringify(questionObject)
             })
@@ -84,6 +87,7 @@ const TechQuestions = (props)=>{
                 //     throw Error(response.statusText);
             }).then(data => {
                 // console.log(data);
+                getTechQuestions();
             }).catch(error => {
                 // console.log(error);
                 alert("Error: ", error);
@@ -91,14 +95,59 @@ const TechQuestions = (props)=>{
             // console.log(techQuestions);
             clearAll();
         }
-        function deleteTechQuestion(id){
+
+        const [getQuestions, setGetQuestions] = useState({});
+
+        function getTechQuestions() {
+            fetch("https://adgrecruitments.herokuapp.com/admin/technical/get-all-questions", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "auth-token": sessionStorage.getItem("admin"),
+                },
+            })
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                setGetQuestions(data);
+                console.log(data);
+                console.log(getQuestions);
+            })
+            .catch(error => console.log(error));
+        }
+
+        async function deleteTechQuestion(id){
             setTechQuestions((prevQ)=>{
                 return prevQ.filter((question,index)=>{
                     return question.id !==id;
                 })
             })
+
+            await fetch("https://adgrecruitments.herokuapp.com/admin/technical/delete-question/" + id, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "auth-token": sessionStorage.getItem("admin"),
+                }
+            })
+            .then((response) => {
+                console.log(response);
+                return response.json();
+            })
+            .then((data) => {
+                // console.log(data);
+                alert("Question deleted successfully!");
+            })
+            .catch(error => {
+                // console.log(error);
+                alert("Error: ", error);
+            })
+
+            getTechQuestions();
         }
-        function clearAll(){
+
+        let clearAll = () => {
             setCorrectOption("");
             setQuestionDescription("");
             setOptions({});
@@ -108,8 +157,8 @@ const TechQuestions = (props)=>{
         }
 
    const [showModal,setShowModal]=useState(false);
-    let showModal1 = ()=>{ setShowModal(true) }
-    let hideModal = ()=>{ setShowModal(false) }
+    let showModal1 = () => { setShowModal(true) }
+    let hideModal = () => { setShowModal(false) }
 
     let multipleFunctions = () =>{ showModal1(); generateId(); }
 
@@ -127,7 +176,7 @@ const TechQuestions = (props)=>{
             correctOption={correctOption} getCorrectOption={getCorrectOption}
             getFile={getFile} onClear={clearAll}
             />
-                {techQuestions.map((question,index)=>(
+                {/* {techQuestions.map((question,index)=>(
                     <div className={classes.questions} key={index}>
                         <div>
                             <div className={classes.options}>
@@ -141,7 +190,23 @@ const TechQuestions = (props)=>{
                         </div>
                         <button onClick={()=>deleteTechQuestion(question.id)}>Delete</button>
                     </div>
-                ))}
+                ))} */}
+
+                {/* {getQuestions.map((question,index)=>(
+                    <div className={classes.questions} key={index}>
+                        <div>
+                            <div className={classes.options}>
+                                <div>{index+1}.</div>
+                                <div className={classes.questionDescrip}>{question.questionDescription}</div>
+                                <div className={question.file ? "display-image" :"display-none"}>
+                                <img src={question.file} alt="Q.img" className={classes.image}></img>
+                                </div>
+                            </div>
+                            <OptionsDisplay questions={question.options}/>
+                        </div>
+                        <button onClick={()=>deleteTechQuestion(question.id)}>Delete</button>
+                    </div>
+                ))} */}
         </div>
     );
 }
