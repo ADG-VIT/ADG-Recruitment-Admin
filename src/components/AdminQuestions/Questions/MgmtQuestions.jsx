@@ -46,9 +46,7 @@ const MgmtQuestions = (props)=>{
             // console.log(error)
             alert("Error: ", error);
         })
-
-        setFiles({});
-        setQuestionDescription("");
+        clearAll();
     }
     function deleteMgmtQuestion(id){
         setMgmtQuestions((prevQ)=>{
@@ -56,6 +54,10 @@ const MgmtQuestions = (props)=>{
                 return question.id !==id;
             })
         })
+    }
+    function clearAll(){
+        setFiles({});
+        setQuestionDescription("");
     }
     const [showModal,setShowModal]=useState(false);
     let showModal1 = ()=>{ setShowModal(true) }
@@ -70,7 +72,7 @@ const MgmtQuestions = (props)=>{
             </div>
             <Modal show={showModal} onHide={hideModal} questionDescription={questionDescription} selected={props.selectedValue} 
             setQuestionDescription={inputValue} inputYear={yearValue} 
-            addQuestion={addMgmtQuestion} getFile={getFile}/>
+            addQuestion={addMgmtQuestion} getFile={getFile} onClear={clearAll}/>
                 {mgmtQuestions.map((question,index)=>(
                     <div className={classes.questions} key={index}>
                         <div className={classes.descrip}>
