@@ -84,6 +84,7 @@ const DesignQuestions = (props)=>{
                 //     throw Error(response.statusText);
             }).then(data => {
                 // console.log(data);
+                getDesignQuestions();
             }).catch(error => {
                 // console.log(error);
                 alert("Error: ", error);
@@ -92,14 +93,55 @@ const DesignQuestions = (props)=>{
             // console.log("Design: ",designQuestions);
             clearAll();
         }
-        function deleteDesignQuestion(id){
+
+        const [getQuestions, setGetQuestions] = useState([]);
+
+        function getDesignQuestions() {
+            fetch("https://adgrecruitments.herokuapp.com/admin/design/get-all-questions", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "auth-token": sessionStorage.getItem("admin"),
+                },
+            })
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                setGetQuestions(data);
+                console.log(data);
+                console.log(getQuestions);
+            })
+            .catch(error => console.log(error));
+        }
+
+        async function deleteDesignQuestion(id){
             setDesignQuestions((prevQ)=>{
                 return prevQ.filter((question,index)=>{
                     return question.id !==id;
                 })
             })
+
+            await fetch("https://adgrecruitments.herokuapp.com/admin/design/delete-question/" + id, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmMyNmI1NTNiNzgwMTE4N2IyZWE4ZTgiLCJpYXQiOjE2MDY3NjAwMTl9.DB2DxgaWierOYKZ4EJX44R9NXrEE5JwT0c2PaHSJAk4",
+                }
+            })
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                // console.log(data);
+            })
+            .catch(error => {
+                // console.log(error);
+                alert("Error: ", error);
+            })
         }
-        function clearAll(){
+
+        let clearAll = () => {
             setCorrectOption("");
             setQuestionDescription("");
             setOptions({});
@@ -109,8 +151,8 @@ const DesignQuestions = (props)=>{
         }
 
     const [showModal,setShowModal]=useState(false);
-    let showModal1 = ()=>{ setShowModal(true) }
-    let hideModal = ()=>{ setShowModal(false) }
+    let showModal1 = () => { setShowModal(true) }
+    let hideModal = () => { setShowModal(false) }
 
     let multipleFunctions = () =>{ showModal1(); generateId(); }
 
@@ -127,7 +169,7 @@ const DesignQuestions = (props)=>{
             addOption={addOption} inputOption={optionValue} inputOptionVal={inputOption} options={options} correctOption={correctOption} getCorrectOption={getCorrectOption}
             getFile={getFile} onClear={clearAll}
             />
-                {designQuestions.map((question,index)=>(
+                {/* {designQuestions.map((question,index)=>(
                     <div className={classes.questions} key={index}>
                         <div>
                             <div className={classes.options}>
@@ -141,7 +183,23 @@ const DesignQuestions = (props)=>{
                         </div>
                         <button onClick={()=>deleteDesignQuestion(question.id)}>Delete</button>
                     </div>
-                ))}
+                ))} */}
+
+                {/* {getQuestions.map((question,index)=>(
+                    <div className={classes.questions} key={index}>
+                        <div>
+                            <div className={classes.options}>
+                                <div>{index+1}.</div>
+                                <div className={classes.questionDescrip}>{question.questionDescription}</div>
+                                <div className={question.file ? "display-image" :"display-none"}>
+                                <img src={question.file} alt="Q.img" className={classes.image}></img>
+                                </div>
+                            </div>
+                            <OptionsDisplay questions={question.options}/>
+                        </div>
+                        <button onClick={()=>deleteDesignQuestion(question.id)}>Delete</button>
+                    </div>
+                ))} */}
         </div>
     );
 }

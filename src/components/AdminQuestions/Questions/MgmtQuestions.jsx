@@ -42,26 +42,70 @@ const MgmtQuestions = (props)=>{
             return response.json();
         }).then(function(data) {
             // console.log(data);
+            getMgmtQuestions();
         }).catch(error => {
             // console.log(error)
             alert("Error: ", error);
         })
+
         clearAll();
     }
-    function deleteMgmtQuestion(id){
+
+    const [getQuestions, setGetQuestions] = useState({});
+
+    function getMgmtQuestions() {
+        fetch("https://adgrecruitments.herokuapp.com/admin/management/get-all-questions", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "auth-token": sessionStorage.getItem("admin"),
+            },
+        })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            setGetQuestions(data);
+            console.log(data);
+            console.log(getQuestions);
+        })
+        .catch(error => console.log(error));
+    }
+
+    async function deleteMgmtQuestion(id){
         setMgmtQuestions((prevQ)=>{
             return prevQ.filter((question,index)=>{
                 return question.id !==id;
             })
         })
+
+        await fetch("https://adgrecruitments.herokuapp.com/admin/management/delete-question/" + id, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmMyNmI1NTNiNzgwMTE4N2IyZWE4ZTgiLCJpYXQiOjE2MDY3NjAwMTl9.DB2DxgaWierOYKZ4EJX44R9NXrEE5JwT0c2PaHSJAk4",
+            }
+        })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            // console.log(data);
+        })
+        .catch(error => {
+            // console.log(error);
+            alert("Error: ", error);
+        })
     }
+
     function clearAll(){
         setFiles({});
         setQuestionDescription("");
     }
+    
     const [showModal,setShowModal]=useState(false);
-    let showModal1 = ()=>{ setShowModal(true) }
-    let hideModal = ()=>{ setShowModal(false) }
+    let showModal1 = () => { setShowModal(true) }
+    let hideModal = () => { setShowModal(false) }
     
     let showQuestions=props.selectedValue==="management" ? "management": "display-none";
     return(
@@ -72,8 +116,21 @@ const MgmtQuestions = (props)=>{
             </div>
             <Modal show={showModal} onHide={hideModal} questionDescription={questionDescription} selected={props.selectedValue} 
             setQuestionDescription={inputValue} inputYear={yearValue} 
-            addQuestion={addMgmtQuestion} getFile={getFile} onClear={clearAll}/>
+            addQuestion={addMgmtQuestion} getFile={getFile}/>
                 {mgmtQuestions.map((question,index)=>(
+                    <div className={classes.questions} key={index}>
+                        <div className={classes.descrip}>
+                            <div>{index+1}.</div>
+                            <div className={classes.questionDescrip1}>{question.questionDescription}</div>
+                                    <div className={question.file ? "display-image" :"display-none"}><br />
+                                        <img src={question.file} alt="Q.img" className={classes.image}></img>
+                                    </div>
+                        </div>
+                        <button onClick={()=>deleteMgmtQuestion(question.id)}>Delete</button>
+                    </div>
+                ))}
+
+                {getQuestions.map((question,index)=>(
                     <div className={classes.questions} key={index}>
                         <div className={classes.descrip}>
                             <div>{index+1}.</div>
@@ -81,6 +138,7 @@ const MgmtQuestions = (props)=>{
                             {/* <div className={question.file ? "display-image" :"display-none"}><br />
                                 <img src={question.file} alt="Q.img" className={classes.image}></img>
                             </div> */}
+
                         </div>
                         <button onClick={()=>deleteMgmtQuestion(question.id)}>Delete</button>
                     </div>
