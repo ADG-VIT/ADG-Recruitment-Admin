@@ -1,0 +1,143 @@
+.searchTopContainer{
+   display:flex;
+  align-items: center;
+}
+.searchTop{
+    background: transparent;
+    height:30px;
+    width:50%;
+    outline:none;
+    border:0.1px solid grey;
+    border-radius: 5px;
+    margin:10px 0;
+    color:white;
+}
+.btnTop{
+    margin-left:5px;
+    height:20px;
+    border:0.1px solid grey;
+    outline:none;
+    padding:5px;
+    background-color:white;
+}
+.btnTop:hover{
+    transform:scale(0.9);
+}
+.formContainer{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:2%;
+}
+.input{
+    opacity:0;
+}
+.label{
+    flex:1;
+    margin:1vw 1vw;
+    text-align: center;
+    background:rgba(63, 63, 63, 0.6);
+    padding:20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+    cursor: pointer;
+}
+.label:hover {
+    background-color: #027aff;
+    transform: scale(1.10);
+}
+.input:checked + .label{
+    background:dodgerblue;
+}
+.container{
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.searchContainer{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width:90%;
+}
+.searchResults{
+   display:flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-top:-5px;
+}
+.btn{
+    margin-left:5px;
+    height:20px;
+    border:0.1px solid grey;
+    outline:none;
+    padding:5px;
+    background-color:white;
+}
+.btn:hover{
+    transform:scale(0.9);
+}
+.search{
+    align-items: center;
+    background: transparent;
+    height:30px;
+    width:50%;
+    outline:none;
+    border:0.1px solid grey;
+    border-radius: 5px;
+    margin:10px 0;
+    color:white;
+}
+
+.textSearch{
+    justify-content: space-between;
+    border:0.1px solid grey;
+    padding:0 10px;
+    border-radius: 15px;
+    width:80%;
+    height:50px;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: dodgerblue;
+    color:white;
+}
+.wrapper{
+    border-radius: 10px;
+    border:1px solid grey;
+    width:100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin:5px;
+}
+h2{
+    margin:10px;
+    text-transform:uppercase;
+}
+.text{
+    display:flex;
+    justify-content: space-between;
+    border:0.1px solid grey;
+    padding:0 10px;
+    border-radius: 15px;
+    width:80%;
+    height:50px;
+    align-items: center;
+    margin-top: 10px;
+}
+.imgContainer{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+}
+.imgContainer>img{
+    width:35px;
+    height:35px;
+    /* background-color:#AA1047; */
+    border-radius: 25px;
+    margin-right:5px;
+}
