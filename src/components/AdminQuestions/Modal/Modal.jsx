@@ -28,6 +28,7 @@ const Modal = (props) => {
   //     }
   //   });
   // });
+
   const modalClass = props.show ? "modal display-block" : "modal display-none";
   const showOptionsClass=props.selected==='management' ? "hide-options" : "display-options";
   return (

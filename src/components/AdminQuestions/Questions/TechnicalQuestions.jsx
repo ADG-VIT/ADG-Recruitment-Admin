@@ -181,7 +181,7 @@ const TechQuestions = (props)=>{
             correctOption={correctOption} getCorrectOption={getCorrectOption}
             getFile={getFile} onClear={clearAll}
             />
-                {techQuestions.map((question,index)=>(
+                {/* {techQuestions.map((question,index)=>(
                     <div className={classes.questions} key={index}>
                         <div>
                             <div className={classes.options}>
@@ -195,7 +195,7 @@ const TechQuestions = (props)=>{
                         </div>
                         <button onClick={()=>deleteTechQuestion(question.id)}>Delete</button>
                     </div>
-                ))}
+                ))} */}
                 {getQuestions.map((question,index)=>(
                     <div className={classes.questions} key={index}>
                         <div>
