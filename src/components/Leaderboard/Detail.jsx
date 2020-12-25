@@ -62,7 +62,6 @@ class Detail extends React.Component{
         const mystyle={
             backgroundColor:colors[random]
         }
-        console.log("fuck",this.props.detail['regno']+this.props.selected)
         return(
             <div className={classes.textContainer} >
                 <div className={classes.text}>
