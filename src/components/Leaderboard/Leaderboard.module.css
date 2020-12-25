@@ -1,27 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 .searchTopContainer{
-   display:flex;
-  align-items: center;
+    display:flex;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    padding:1px;
+    border-radius: 10px;
+    border:1px solid grey;
+    width:50%;
+    justify-content: space-between;
 }
 .searchTop{
     background: transparent;
     height:30px;
     width:50%;
     outline:none;
-    border:0.1px solid grey;
+    /* border:0.1px solid grey; */
+    border:none;
     border-radius: 5px;
     margin:10px 0;
     color:white;
+    padding:0 5px;
 }
 .btnTop{
     margin-left:5px;
     height:20px;
-    border:0.1px solid grey;
+    /* border:0.1px solid grey; */
+    border:none;
     outline:none;
     padding:5px;
-    background-color:white;
+    /* background-color:white; */
 }
 .btnTop:hover{
     transform:scale(0.9);
+    /* border:0.1px solid grey; */
 }
 .dropDown{
     display:block;
@@ -56,8 +67,7 @@ svg{
     margin-right:5px;
 }
 .labelContainer{
-    flex:1;
-    margin:1vw 2vw;
+    margin:1vw 1vw;
     min-width:25%;
     text-align: center;
     background:rgba(63, 63, 63, 0.6);
@@ -65,7 +75,7 @@ svg{
     cursor: pointer;
     transition: all 250ms ease-in-out;
     display:flex;
-    flex-direction: row;
+    justify-content: flex-start;
     padding:15px 15px;
 }
 .labelContainer:hover {
@@ -93,10 +103,13 @@ input:checked + .labelContainer{
 }
 .searchContainer{
     display:flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-direction: row;
-    width:90%;
+    width:50%;
+    border:1px solid grey;
+    border-radius: 10px;
+    margin-bottom:10px;
 }
 .searchResults{
    display:flex;
@@ -107,10 +120,12 @@ input:checked + .labelContainer{
 .btn{
     margin-left:5px;
     height:20px;
-    border:0.1px solid grey;
+    /* border:0.1px solid grey; */
+    border:none;
     outline:none;
     padding:5px;
-    background-color:white;
+    /* background-color:white; */
+    font-family: 'Roboto', sans-serif;
 }
 .btn:hover{
     transform:scale(0.9);
@@ -121,10 +136,12 @@ input:checked + .labelContainer{
     height:30px;
     width:50%;
     outline:none;
-    border:0.1px solid grey;
-    border-radius: 5px;
+    /* border:0.1px solid grey; */
+    border:none;
+    /* border-radius: 5px; */
     margin:10px 0;
     color:white;
+    padding:0 5px;
 }
 
 .textSearch{
@@ -192,12 +209,13 @@ h2{
 p{
     margin:5px;
     padding:0;
+    font-family: 'Roboto',sans-serif;
 }
 .select{
     margin-top:15px;
 }
 .selection{
-    font-family: "Poppins", sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 .imgContainer{
     display:flex;
@@ -244,17 +262,26 @@ input[type="radio"] {
     display: inline-block;
     width: 15px;
     height: 15px;
-    padding: 3px;
+    padding: 1.3px;
     background-clip: content-box;
     border: 1px solid #bbbbbb;
     border-radius: 50%;
   }
   .input1:checked {
     background-color: dodgerblue;
+    border: 1px solid dodgerblue;
   }
   .input2:checked{
-      background-color: red;
+      background-color: rgb(241, 46, 46);
+      border: 1px solid rgb(184, 54, 54);
   }
   input[type="radio"]:focus{
       outline:none;
+  }
+  h4{
+      font-family: 'Roboto',sans-serif;
+  }
+  .file{
+      width:25px;
+      height:25px;
   }
