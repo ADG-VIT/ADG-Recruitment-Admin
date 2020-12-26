@@ -20,14 +20,14 @@ const Modal = (props) => {
 }
 
   let modalRef=useRef()
-  // useEffect(()=>{
-  //   document.addEventListener("mousedown",(event)=>{
-  //     if(!modalRef.current.contains(event.target)){
-  //       props.onHide();
-  //       // props.onClear();
-  //     }
-  //   });
-  // });
+  useEffect(()=>{
+    document.addEventListener("mousedown",(event)=>{
+      if(!modalRef.current.contains(event.target)){
+        props.onHide();
+        // props.onClear();
+      }
+    });
+  });
 
   const modalClass = props.show ? "modal display-block" : "modal display-none";
   const showOptionsClass=props.selected==='management' ? "hide-options" : "display-options";
