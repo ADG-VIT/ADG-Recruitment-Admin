@@ -26,11 +26,11 @@ const Login = () => {
                 // console.log(response.status);
                 // console.log(response.statusText);
                 // console.log(response.message);
-                // return response.json();
-                if(response.status === 200)
-                    return response.json();
-                else
-                    throw Error(response.statusText);
+                return response.json();
+                // if(response.status === 200)
+                //     return response.json();
+                // else
+                //     throw Error(response.statusText);
             })
             .then(function(data) {
                 // console.log("Success: ", data);
