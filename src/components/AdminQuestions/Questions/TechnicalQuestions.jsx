@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React,{ useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import Modal from '../Modal/Modal';
 import classes from "./Questions.module.css";
@@ -45,7 +45,7 @@ const TechQuestions = (props)=>{
 
     let generateId = () => { questionid = uuid() }
 
-        const [techQuestions,setTechQuestions]=useState([
+        // const [techQuestions,setTechQuestions]=useState([
         // {
         //     id:uuid(),
         //     questionDescription: "Which of the following function of Array object adds one or more elements to the end of an array and returns the new length of the array?",
@@ -59,22 +59,22 @@ const TechQuestions = (props)=>{
         //     yearofstudy:1,
         //     file:{}
         //    }
-        ]);
+        // ]);
 
         async function addTechQuestion(){
-            setTechQuestions((prevQ)=>{
-                return [...prevQ,{id:questionid,questionDescription:questionDescription,yearofstudy:yearofstudy,options:options,file:files.base64,correctOption:correctOption}]
-            })
+            // setTechQuestions((prevQ)=>{
+            //     return [...prevQ,{id:questionid,questionDescription:questionDescription,yearofstudy:yearofstudy,options:options,file:files.base64,correctOption:correctOption}]
+            // })
             // console.log(techQuestions);
             const questionObject = {questionDescription:questionDescription, options:options, correctOption:correctOption, yearofstudy:yearofstudy, questionImage:files.base64};
 
             console.log(sessionStorage.getItem("admin"));
 
             await fetch("https://adgrecruitments.herokuapp.com/admin/technical/add-question", {
-                method: 'POST',
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmMyNmI1NTNiNzgwMTE4N2IyZWE4ZTgiLCJpYXQiOjE2MDY3NjAwMTl9.DB2DxgaWierOYKZ4EJX44R9NXrEE5JwT0c2PaHSJAk4",
+                    "auth-token": sessionStorage.getItem("admin"),
                 },
                 body: JSON.stringify(questionObject)
             })
@@ -88,52 +88,71 @@ const TechQuestions = (props)=>{
                 //     throw Error(response.statusText);
             }).then(data => {
                 // console.log(data);
-                getTechQuestions();
+                // getTechQuestions();
             }).catch(error => {
                 // console.log(error);
                 alert("Error: ", error);
             })
             // console.log(techQuestions);
+            getTechQuestions();
             clearAll();
         }
 
+        let [getQuestions, setGetQuestions] = useState([]);
+
+        useEffect(() => {
+            getTechQuestions();
+        }, []);
 
         function getTechQuestions() {
             fetch("https://adgrecruitments.herokuapp.com/admin/technical/get-all-questions", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmMyNmI1NTNiNzgwMTE4N2IyZWE4ZTgiLCJpYXQiOjE2MDY3NjAwMTl9.DB2DxgaWierOYKZ4EJX44R9NXrEE5JwT0c2PaHSJAk4",
+                    "auth-token": sessionStorage.getItem("admin"),
                 },
             })
             .then((response) => {
+                // const allQuestions = response.data.questions;
+                // console.log(response);
+                // console.log(response.data);
+                // setGetQuestions(allQuestions);
                 return response.json();
             })
             .then((data) => {
-                getQuestions=data.questions;
-                getQuestions.map(question=>{
-                    console.log("description",question['questionDescription']);
-                    console.log("options",question['options']);
-                    console.log("file",question['file']);
-                })
+                // console.log(data.questions);
+                setGetQuestions(data.questions);
             })
+            // .then((data) => {
+            //     getQuestions=data.questions;
+            //     // getQuestions.map(question=>{
+            //     //     console.log("description",question['questionDescription']);
+            //     //     console.log("options",question['options']);
+            //     //     console.log("file",question['file']);
+            //     // })
+            // })
             .catch(error => console.log(error));
         }
 
+        // var questionsLength = getQuestions.length;
+        // for(let i = 0; i < l; i++) {
+
+        // }
+
         // window.addEventListener('onload',getTechQuestions);
 
-        async function deleteTechQuestion(id){
-            setTechQuestions((prevQ)=>{
-                return prevQ.filter((question,index)=>{
-                    return question.id !==id;
-                })
-            })
+        async function deleteTechQuestion(_id){
+            // setTechQuestions((prevQ)=>{
+            //     return prevQ.filter((question,index)=>{
+            //         return question.id !==id;
+            //     })
+            // })
 
-            await fetch("https://adgrecruitments.herokuapp.com/admin/technical/delete-question/" + id, {
+            await fetch("https://adgrecruitments.herokuapp.com/admin/technical/delete-question/" + _id, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
-                    "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmMyNmI1NTNiNzgwMTE4N2IyZWE4ZTgiLCJpYXQiOjE2MDY3NjAwMTl9.DB2DxgaWierOYKZ4EJX44R9NXrEE5JwT0c2PaHSJAk4",
+                    "auth-token": sessionStorage.getItem("admin"),
                 }
             })
             .then((response) => {
@@ -165,7 +184,7 @@ const TechQuestions = (props)=>{
     let showModal1 = () => { setShowModal(true) }
     let hideModal = () => { setShowModal(false) }
 
-    let multipleFunctions = () =>{ showModal1(); generateId(); }
+    let multipleFunctions = () => { showModal1(); generateId(); }
 
     let showQuestions=props.selectedValue==="technical" ? "technical": "display-none";
     return(
@@ -181,21 +200,6 @@ const TechQuestions = (props)=>{
             correctOption={correctOption} getCorrectOption={getCorrectOption}
             getFile={getFile} onClear={clearAll}
             />
-                {/* {techQuestions.map((question,index)=>(
-                    <div className={classes.questions} key={index}>
-                        <div>
-                            <div className={classes.options}>
-                                <div>{index+1}.</div>
-                                <div className={classes.questionDescrip}>{question.questionDescription}</div>
-                                <div className={question.file ? "display-image" :"display-none"}>
-                                <img src={question.file} alt="Q.img" className={classes.image}></img>
-                                </div>
-                            </div>
-                            <OptionsDisplay questions={question.options}/>
-                        </div>
-                        <button onClick={()=>deleteTechQuestion(question.id)}>Delete</button>
-                    </div>
-                ))} */}
                 {getQuestions.map((question,index)=>(
                     <div className={classes.questions} key={index}>
                         <div>
@@ -208,10 +212,25 @@ const TechQuestions = (props)=>{
                             </div>
                             <OptionsDisplay questions={question['options']}/>
                         </div>
-                        {/* <button onClick={()=>deleteTechQuestion(question.id)}>Delete</button> */}
+                        <button onClick={()=>deleteTechQuestion(question['_id'])}>Delete</button>
                     </div>
                 ))}
 
+                {/* {techQuestions.map((question,index)=>(
+                    <div className={classes.questions} key={index}>
+                        <div>
+                            <div className={classes.options}>
+                                <div>{index+questionsLength+1}.</div>
+                                <div className={classes.questionDescrip}>{question.questionDescription}</div>
+                                <div className={question.file ? "display-image" :"display-none"}>
+                                <img src={question.file} alt="Q.img" className={classes.image}></img>
+                                </div>
+                            </div>
+                            <OptionsDisplay questions={question.options}/>
+                        </div>
+                        <button onClick={()=>deleteTechQuestion(question.id, getQuestions[index+questionsLength]['_id'])}>Delete</button>
+                    </div>
+                ))} */}
         </div>
     );
 }
