@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React,{ useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import Modal from '../Modal/Modal';
 import classes from "./Questions.module.css";
@@ -44,7 +44,7 @@ const DesignQuestions = (props)=>{
 
         let generateId = ()=>{ questionid = uuid() }
 
-        const [designQuestions,setDesignQuestions]=useState([
+        // const [designQuestions,setDesignQuestions]=useState([
         // {
         //     id:uuid(),
         //     questionDescription: "Which of the following function of Array object adds one or more elements to the end of an array and returns the new length of the array?",
@@ -58,11 +58,12 @@ const DesignQuestions = (props)=>{
         //     yearofstudy:1,
         //     file:{}
         //    }
-        ]);
+        // ]);
+        
         async function addDesignQuestion(){
-            setDesignQuestions((prevQ)=>{
-                return [...prevQ,{id:questionid,questionDescription:questionDescription,yearofstudy:yearofstudy,options:options,file:files.base64,correctOption:correctOption}]
-            })
+            // setDesignQuestions((prevQ)=>{
+            //     return [...prevQ,{id:questionid,questionDescription:questionDescription,yearofstudy:yearofstudy,options:options,file:files.base64,correctOption:correctOption}]
+            // })
             
             const questionObject = {questionDescription:questionDescription, options:options, correctOption:correctOption, yearofstudy:yearofstudy, questionImage:files.base64};
             
@@ -70,7 +71,7 @@ const DesignQuestions = (props)=>{
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
-                    "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmMyNmI1NTNiNzgwMTE4N2IyZWE4ZTgiLCJpYXQiOjE2MDY3NjAwMTl9.DB2DxgaWierOYKZ4EJX44R9NXrEE5JwT0c2PaHSJAk4",
+                    "auth-token": sessionStorage.getItem("admin"),
                 },
                 body: JSON.stringify(questionObject)
             })
@@ -84,17 +85,22 @@ const DesignQuestions = (props)=>{
                 //     throw Error(response.statusText);
             }).then(data => {
                 // console.log(data);
-                getDesignQuestions();
+                // getDesignQuestions();
             }).catch(error => {
                 // console.log(error);
                 alert("Error: ", error);
             })
 
             // console.log("Design: ",designQuestions);
+            getDesignQuestions();
             clearAll();
         }
 
         const [getQuestions, setGetQuestions] = useState([]);
+
+        useEffect(() => {
+            getDesignQuestions();
+        }, []);
 
         function getDesignQuestions() {
             fetch("https://adgrecruitments.herokuapp.com/admin/design/get-all-questions", {
@@ -108,25 +114,25 @@ const DesignQuestions = (props)=>{
                 return response.json();
             })
             .then((data) => {
-                setGetQuestions(data);
-                console.log(data);
-                console.log(getQuestions);
+                setGetQuestions(data.questions);
+                // console.log(data);
+                // console.log(getQuestions);3
             })
             .catch(error => console.log(error));
         }
 
-        async function deleteDesignQuestion(id){
-            setDesignQuestions((prevQ)=>{
-                return prevQ.filter((question,index)=>{
-                    return question.id !==id;
-                })
-            })
+        async function deleteDesignQuestion(_id){
+            // setDesignQuestions((prevQ)=>{
+            //     return prevQ.filter((question,index)=>{
+            //         return question.id !==id;
+            //     })
+            // })
 
-            await fetch("https://adgrecruitments.herokuapp.com/admin/design/delete-question/" + id, {
+            await fetch("https://adgrecruitments.herokuapp.com/admin/design/delete-question/" + _id, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
-                    "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmMyNmI1NTNiNzgwMTE4N2IyZWE4ZTgiLCJpYXQiOjE2MDY3NjAwMTl9.DB2DxgaWierOYKZ4EJX44R9NXrEE5JwT0c2PaHSJAk4",
+                    "auth-token": sessionStorage.getItem("admin"),
                 }
             })
             .then((response) => {
@@ -139,6 +145,8 @@ const DesignQuestions = (props)=>{
                 // console.log(error);
                 alert("Error: ", error);
             })
+
+            getDesignQuestions();
         }
 
         let clearAll = () => {
@@ -185,21 +193,21 @@ const DesignQuestions = (props)=>{
                     </div>
                 ))} */}
 
-                {/* {getQuestions.map((question,index)=>(
+                {getQuestions.map((question,index)=>(
                     <div className={classes.questions} key={index}>
                         <div>
                             <div className={classes.options}>
                                 <div>{index+1}.</div>
-                                <div className={classes.questionDescrip}>{question.questionDescription}</div>
-                                <div className={question.file ? "display-image" :"display-none"}>
-                                <img src={question.file} alt="Q.img" className={classes.image}></img>
+                                <div className={classes.questionDescrip}>{question['questionDescription']}</div>
+                                <div className={question['file'] ? "display-image" :"display-none"}>
+                                <img src={question['file']} alt="Q.img" className={classes.image}></img>
                                 </div>
                             </div>
-                            <OptionsDisplay questions={question.options}/>
+                            <OptionsDisplay questions={question['options']}/>
                         </div>
-                        <button onClick={()=>deleteDesignQuestion(question.id)}>Delete</button>
+                        <button onClick={()=>deleteDesignQuestion(question['_id'])}>Delete</button>
                     </div>
-                ))} */}
+                ))}
         </div>
     );
 }
