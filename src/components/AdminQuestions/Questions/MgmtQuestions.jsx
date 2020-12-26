@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React,{ useState, useEffect } from "react";
 import {v4 as uuid } from "uuid";
 import Modal from '../Modal/Modal';
 import classes from "./Questions.module.css";
@@ -13,18 +13,19 @@ const MgmtQuestions = (props)=>{
     const [files, setFiles] = useState({});
         let getFile = (file)=>{ setFiles(file) }
 
-    const [mgmtQuestions,setMgmtQuestions]=useState([
+    // const [mgmtQuestions,setMgmtQuestions]=useState([
         // {
         //     id:uuid(),
         //     questionDescription:"hello bro", 
         //     yearofstudy:1,
         //     file:""       
         // }
-    ]);
+    // ]);
+    
     async function addMgmtQuestion(){
-        setMgmtQuestions(prevQ=>{
-            return [...prevQ,{id:uuid(),questionDescription:questionDescription,yearofstudy:yearofstudy,file:files.base64}]
-        });
+        // setMgmtQuestions(prevQ=>{
+        //     return [...prevQ,{id:uuid(),questionDescription:questionDescription,yearofstudy:yearofstudy,file:files.base64}]
+        // });
 
         const questionObject = {description:questionDescription, questionImage:files.base64};
 
@@ -32,7 +33,7 @@ const MgmtQuestions = (props)=>{
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmMyNmI1NTNiNzgwMTE4N2IyZWE4ZTgiLCJpYXQiOjE2MDY3NjAwMTl9.DB2DxgaWierOYKZ4EJX44R9NXrEE5JwT0c2PaHSJAk4",
+                "auth-token": sessionStorage.getItem("admin"),
             },
             body: JSON.stringify(questionObject)
         })
@@ -42,16 +43,20 @@ const MgmtQuestions = (props)=>{
             return response.json();
         }).then(function(data) {
             // console.log(data);
-            getMgmtQuestions();
+            // getMgmtQuestions();
         }).catch(error => {
             // console.log(error)
             alert("Error: ", error);
         })
-
+        getMgmtQuestions();
         clearAll();
     }
 
-    const [getQuestions, setGetQuestions] = useState({});
+    const [getQuestions, setGetQuestions] = useState([]);
+
+    useEffect(() => {
+        getMgmtQuestions();
+    }, []);
 
     function getMgmtQuestions() {
         fetch("https://adgrecruitments.herokuapp.com/admin/management/get-all-questions", {
@@ -65,25 +70,25 @@ const MgmtQuestions = (props)=>{
             return response.json();
         })
         .then((data) => {
-            setGetQuestions(data);
-            console.log(data);
-            console.log(getQuestions);
+            setGetQuestions(data.questions);
+            // console.log(data);
+            // console.log(getQuestions);
         })
         .catch(error => console.log(error));
     }
 
-    async function deleteMgmtQuestion(id){
-        setMgmtQuestions((prevQ)=>{
-            return prevQ.filter((question,index)=>{
-                return question.id !==id;
-            })
-        })
+    async function deleteMgmtQuestion(_id){
+        // setMgmtQuestions((prevQ)=>{
+        //     return prevQ.filter((question,index)=>{
+        //         return question.id !==id;
+        //     })
+        // })
 
-        await fetch("https://adgrecruitments.herokuapp.com/admin/management/delete-question/" + id, {
+        await fetch("https://adgrecruitments.herokuapp.com/admin/management/delete-question/" + _id, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmMyNmI1NTNiNzgwMTE4N2IyZWE4ZTgiLCJpYXQiOjE2MDY3NjAwMTl9.DB2DxgaWierOYKZ4EJX44R9NXrEE5JwT0c2PaHSJAk4",
+                "auth-token": sessionStorage.getItem("admin"),
             }
         })
         .then((response) => {
@@ -91,11 +96,13 @@ const MgmtQuestions = (props)=>{
         })
         .then((data) => {
             // console.log(data);
+            alert("Question deleted successfully!");
         })
         .catch(error => {
             // console.log(error);
             alert("Error: ", error);
         })
+        getMgmtQuestions();
     }
 
     function clearAll(){
@@ -109,42 +116,41 @@ const MgmtQuestions = (props)=>{
     
     let showQuestions=props.selectedValue==="management" ? "management": "display-none";
     return(
-        <div></div>
-        // <div className={showQuestions}>
-        //     <div className={classes.top}>
-        //     <h2>Questionare:</h2>
-        //     <button type="button" className={classes.addBtn} onClick={showModal1}>Add Question</button>
-        //     </div>
-        //     <Modal show={showModal} onHide={hideModal} questionDescription={questionDescription} selected={props.selectedValue} 
-        //     setQuestionDescription={inputValue} inputYear={yearValue} 
-        //     addQuestion={addMgmtQuestion} getFile={getFile}/>
-        //         {mgmtQuestions.map((question,index)=>(
-        //             <div className={classes.questions} key={index}>
-        //                 <div className={classes.descrip}>
-        //                     <div>{index+1}.</div>
-        //                     <div className={classes.questionDescrip1}>{question.questionDescription}</div>
-        //                             <div className={question.file ? "display-image" :"display-none"}><br />
-        //                                 <img src={question.file} alt="Q.img" className={classes.image}></img>
-        //                             </div>
-        //                 </div>
-        //                 <button onClick={()=>deleteMgmtQuestion(question.id)}>Delete</button>
-        //             </div>
-        //         ))}
+        <div className={showQuestions}>
+            <div className={classes.top}>
+            <h2>Questionare:</h2>
+            <button type="button" className={classes.addBtn} onClick={showModal1}>Add Question</button>
+            </div>
+            <Modal show={showModal} onHide={hideModal} questionDescription={questionDescription} selected={props.selectedValue} 
+            setQuestionDescription={inputValue} inputYear={yearValue} 
+            addQuestion={addMgmtQuestion} getFile={getFile}/>
+                {/* {mgmtQuestions.map((question,index)=>(
+                    <div className={classes.questions} key={index}>
+                        <div className={classes.descrip}>
+                            <div>{index+1}.</div>
+                            <div className={classes.questionDescrip1}>{question.questionDescription}</div>
+                                    <div className={question.file ? "display-image" :"display-none"}><br />
+                                        <img src={question.file} alt="Q.img" className={classes.image}></img>
+                                    </div>
+                        </div>
+                        <button onClick={()=>deleteMgmtQuestion(question.id)}>Delete</button>
+                    </div>
+                ))} */}
 
-        //         {getQuestions.map((question,index)=>(
-        //             <div className={classes.questions} key={index}>
-        //                 <div className={classes.descrip}>
-        //                     <div>{index+1}.</div>
-        //                     <div className={classes.questionDescrip}>{question.questionDescription}</div>
-        //                     {/* <div className={question.file ? "display-image" :"display-none"}><br />
-        //                         <img src={question.file} alt="Q.img" className={classes.image}></img>
-        //                     </div> */}
+                {getQuestions.map((question,index)=>(
+                    <div className={classes.questions} key={index}>
+                        <div className={classes.descrip}>
+                            <div>{index+1}.</div>
+                            <div className={classes.questionDescrip}>{question['description']}</div>
+                                    <div className={question.file ? "display-image" :"display-none"}><br />
+                                        <img src={question['questionImage']} alt="Q.img" className={classes.image}></img>
+                                    </div>
 
-        //                 </div>
-        //                 <button onClick={()=>deleteMgmtQuestion(question.id)}>Delete</button>
-        //             </div>
-        //         ))}
-        // </div>
+                        </div>
+                        <button onClick={ () => deleteMgmtQuestion(question['_id']) }>Delete</button>
+                    </div>
+                ))}
+        </div>
     );
 }
 export default MgmtQuestions;
