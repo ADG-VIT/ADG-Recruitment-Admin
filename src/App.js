@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router } from "react-router-dom";
+import { Route, HashRouter as Router } from "react-router-dom";
 import Admin from './containers/Admin/Admin';
 import AdminLogin from './containers/Login/Login';
 import './App.css';
