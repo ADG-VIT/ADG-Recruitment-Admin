@@ -120,7 +120,7 @@ const TechQuestions = (props)=>{
                 return response.json();
             })
             .then((data) => {
-                // console.log(data.questions);
+                // console.log("data",data.questions);
                 setGetQuestions(data.questions);
             })
             // .then((data) => {
@@ -210,7 +210,8 @@ const TechQuestions = (props)=>{
                                 <img src={question['file']} alt="Q.img" className={classes.image}></img>
                                 </div>
                             </div>
-                            <OptionsDisplay questions={question['options']}/>
+
+                            <OptionsDisplay questions={question['options']} correctOption={question['correctOption']}/>
                         </div>
                         <button onClick={()=>deleteTechQuestion(question['_id'])}>Delete</button>
                     </div>
@@ -236,17 +237,30 @@ const TechQuestions = (props)=>{
 }
 export default TechQuestions;
 
-export const OptionsDisplay = (props)=>{
+export const OptionsDisplay = (props) => {
     const questions=props.questions;
+    const correctOption = props.correctOption;
     if(props.questions){
     return(
         <div>
-            {Object.keys(questions).map((index)=>(
-                <div className={classes.optionsContainer} key={index}>
-                    <div className={classes.index}>{index}.</div>
-                    <div key={index}>{questions[index]}</div>
-                </div>
-            ))}
+            {Object.keys(questions).map((key, index) => {
+                if(key===correctOption) {
+                    return (
+                        <div className={classes.optionsContainerBlue} key={index}>
+                            <div className={classes.index}>{key}.</div>
+                            <div key={index}>{questions[key]}</div>
+                        </div>
+                    )
+                }
+                else {
+                    return (
+                        <div className={classes.optionsContainer} key={index}>
+                            <div className={classes.index}>{key}.</div>
+                            <div key={index}>{questions[key]}</div>
+                        </div>
+                    )
+                }
+            })}
         </div>
     )} else {
         return null
