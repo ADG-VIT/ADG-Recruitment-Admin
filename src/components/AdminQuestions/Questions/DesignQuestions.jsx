@@ -203,7 +203,7 @@ const DesignQuestions = (props)=>{
                                 <img src={question['file']} alt="Q.img" className={classes.image}></img>
                                 </div>
                             </div>
-                            <OptionsDisplay questions={question['options']}/>
+                            <OptionsDisplay questions={question['options']} correctOption={question['correctOption']} />
                         </div>
                         <button onClick={()=>deleteDesignQuestion(question['_id'])}>Delete</button>
                     </div>
@@ -214,18 +214,31 @@ const DesignQuestions = (props)=>{
 export default DesignQuestions;
 
 export const OptionsDisplay = (props)=>{
-    const questions=props.questions;
+    const questions = props.questions;
+    const correctOption = props.correctOption;
     if(props.questions){
-    return(
-        <div>
-            {Object.keys(questions).map((index)=>(
-                <div className={classes.optionsContainer} key={index}>
-                    <div className={classes.index}>{index}.</div>
-                    <div key={index}>{questions[index]}</div>
-                </div>
-            ))}
-        </div>
-    )} else {
-        return null
-    }
+        return(
+            <div>
+                {Object.keys(questions).map((key, index) => {
+                    if(key===correctOption) {
+                        return (
+                            <div className={classes.optionsContainerBlue} key={index}>
+                                <div className={classes.index}>{key}.</div>
+                                <div key={index}>{questions[key]}</div>
+                            </div>
+                        )
+                    }
+                    else {
+                        return (
+                            <div className={classes.optionsContainer} key={index}>
+                                <div className={classes.index}>{key}.</div>
+                                <div key={index}>{questions[key]}</div>
+                            </div>
+                        )
+                    }
+                })}
+            </div>
+        )} else {
+            return null
+        }
 }
