@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.0d2fa2aa.chunk.css",
-    "main.js": "/static/js/main.f587b445.chunk.js",
-    "main.js.map": "/static/js/main.f587b445.chunk.js.map",
+    "main.css": "/static/css/main.e14f529d.chunk.css",
+    "main.js": "/static/js/main.b4ef4509.chunk.js",
+    "main.js.map": "/static/js/main.b4ef4509.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.3c2d0386.js",
     "runtime-main.js.map": "/static/js/runtime-main.3c2d0386.js.map",
     "static/js/2.b07bcf1c.chunk.js": "/static/js/2.b07bcf1c.chunk.js",
     "static/js/2.b07bcf1c.chunk.js.map": "/static/js/2.b07bcf1c.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.0d2fa2aa.chunk.css.map": "/static/css/main.0d2fa2aa.chunk.css.map",
+    "static/css/main.e14f529d.chunk.css.map": "/static/css/main.e14f529d.chunk.css.map",
     "static/js/2.b07bcf1c.chunk.js.LICENSE.txt": "/static/js/2.b07bcf1c.chunk.js.LICENSE.txt",
     "static/media/adglogo.ba947082.png": "/static/media/adglogo.ba947082.png",
     "static/media/App.css": "/static/media/back-img.feadef79.png",
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.3c2d0386.js",
     "static/js/2.b07bcf1c.chunk.js",
-    "static/css/main.0d2fa2aa.chunk.css",
-    "static/js/main.f587b445.chunk.js"
+    "static/css/main.e14f529d.chunk.css",
+    "static/js/main.b4ef4509.chunk.js"
   ]
 }
