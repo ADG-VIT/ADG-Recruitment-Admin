@@ -70,7 +70,7 @@ const TechQuestions = (props)=>{
 
             console.log(sessionStorage.getItem("admin"));
 
-            await fetch("https://adgrecruitments.herokuapp.com/admin/technical/add-question", {
+            await fetch("https://recruitment2022.herokuapp.com/admin/technical/add-question", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -105,7 +105,7 @@ const TechQuestions = (props)=>{
         }, []);
 
         function getTechQuestions() {
-            fetch("https://adgrecruitments.herokuapp.com/admin/technical/get-all-questions", {
+            fetch("https://recruitment2022.herokuapp.com/admin/technical/get-all-questions", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -148,7 +148,7 @@ const TechQuestions = (props)=>{
             //     })
             // })
 
-            await fetch("https://adgrecruitments.herokuapp.com/admin/technical/delete-question/" + _id, {
+            await fetch("https://recruitment2022.herokuapp.com/admin/technical/delete-question/" + _id, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

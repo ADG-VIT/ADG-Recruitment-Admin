@@ -29,7 +29,7 @@ const MgmtQuestions = (props)=>{
 
         const questionObject = {description:questionDescription, questionImage:files.base64};
 
-        await fetch("https://adgrecruitments.herokuapp.com/admin/management/add-question", {
+        await fetch("https://recruitment2022.herokuapp.com/admin/management/add-question", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const MgmtQuestions = (props)=>{
     }, []);
 
     function getMgmtQuestions() {
-        fetch("https://adgrecruitments.herokuapp.com/admin/management/get-all-questions", {
+        fetch("https://recruitment2022.herokuapp.com/admin/management/get-all-questions", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -84,7 +84,7 @@ const MgmtQuestions = (props)=>{
         //     })
         // })
 
-        await fetch("https://adgrecruitments.herokuapp.com/admin/management/delete-question/" + _id, {
+        await fetch("https://recruitment2022.herokuapp.com/admin/management/delete-question/" + _id, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

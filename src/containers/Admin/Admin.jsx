@@ -28,7 +28,7 @@ const Admin = (props) => {
 
     function updateStatus() {
         // console.log("Status: ", statusValue);
-        fetch("http://adgrecruitments.herokuapp.com/admin/statusupdate?recruitment=" + statusValue, {
+        fetch("http://recruitment2022.herokuapp.com/admin/statusupdate?recruitment=" + statusValue, {
             method: "GET",
             headers: {
                 "auth-token": sessionStorage.getItem("admin"),

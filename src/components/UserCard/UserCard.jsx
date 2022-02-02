@@ -23,7 +23,7 @@ class Modal extends React.Component {
     }
     async resetAttempt(val,regno) {
         // console.log("event",val,regno)
-        await fetch(`https://adgrecruitments.herokuapp.com/admin/resetattempt?domain=${val}&regno=${regno}`, {  
+        await fetch(`https://recruitment2022.herokuapp.com/admin/resetattempt?domain=${val}&regno=${regno}`, {  
         method: "GET",
             headers: {
                 "Content-Type": "application/json",

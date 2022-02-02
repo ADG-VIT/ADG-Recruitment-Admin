@@ -56,7 +56,7 @@ class Leaderboard extends React.Component {
         })
     }
     async getDetails(val) {
-        await fetch(`https://adgrecruitments.herokuapp.com/admin/getalldetailsuser?domain=${val}&year=${this.state.selectedYear}`, {  
+        await fetch(`https://recruitment2022.herokuapp.com/admin/getalldetailsuser?domain=${val}&year=${this.state.selectedYear}`, {  
         method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -80,7 +80,7 @@ class Leaderboard extends React.Component {
     async getUser() {
         const config={
             method:'GET',
-            url:`https://adgrecruitments.herokuapp.com/admin/getspecificuser?regno=${this.state.searchReg}`,
+            url:`https://recruitment2022.herokuapp.com/admin/getspecificuser?regno=${this.state.searchReg}`,
             headers:{
                 "Content-Type": "application/json",
                 "auth-token": sessionStorage.getItem("admin")

@@ -18,7 +18,7 @@ class Detail extends React.Component{
         })
     }
     async acceptUser(regno,domain){
-        await fetch(`https://adgrecruitments.herokuapp.com/admin//acceptuser?domain=${domain}&regno=${regno}`, {
+        await fetch(`https://recruitment2022.herokuapp.com/admin//acceptuser?domain=${domain}&regno=${regno}`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -38,7 +38,7 @@ class Detail extends React.Component{
         }
         async rejectUser(regno,domain){
             // console.log(regno,domain)
-            await fetch(`https://adgrecruitments.herokuapp.com/admin/rejectuser?domain=${domain}&regno=${regno}`, {
+            await fetch(`https://recruitment2022.herokuapp.com/admin/rejectuser?domain=${domain}&regno=${regno}`, {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json",

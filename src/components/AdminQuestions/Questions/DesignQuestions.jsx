@@ -67,7 +67,7 @@ const DesignQuestions = (props)=>{
             
             const questionObject = {questionDescription:questionDescription, options:options, correctOption:correctOption, yearofstudy:yearofstudy, questionImage:files.base64};
             
-            await fetch("https://adgrecruitments.herokuapp.com/admin/design/add-question", {
+            await fetch("https://recruitment2022.herokuapp.com/admin/design/add-question", {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -103,7 +103,7 @@ const DesignQuestions = (props)=>{
         }, []);
 
         function getDesignQuestions() {
-            fetch("https://adgrecruitments.herokuapp.com/admin/design/get-all-questions", {
+            fetch("https://recruitment2022.herokuapp.com/admin/design/get-all-questions", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -128,7 +128,7 @@ const DesignQuestions = (props)=>{
             //     })
             // })
 
-            await fetch("https://adgrecruitments.herokuapp.com/admin/design/delete-question/" + _id, {
+            await fetch("https://recruitment2022.herokuapp.com/admin/design/delete-question/" + _id, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

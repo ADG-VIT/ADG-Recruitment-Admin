@@ -14,7 +14,7 @@ const Login = () => {
         document.getElementById("adminLogin").addEventListener("submit", async function(e) {
             e.preventDefault();
             const user = { email, password };
-            fetch('https://adgrecruitments.herokuapp.com/admin/login', {
+            fetch('https://recruitment2022.herokuapp.com/admin/login', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
